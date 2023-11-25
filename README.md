@@ -1,6 +1,7 @@
 # Success-with-Nvidia-545-drivers-in-Ubuntu-22.04-LTS
 There is a lot of scattered information on how to succeed with Nvidia GPUs and Ubuntu 22.04. This is what worked for us with a 3070 GPU. 
 The resulting happy install is capable of supporting advanced graphics like Unreal Engine 5 as well as AI and ML libraries on the same machine.
+Further revisions are forthcoming as we continue to experiment with added functionality.
 
 
 Making a happy Nvidia driver and CUDA toolkit for Ubuntu 22.04 LTS going into Q1 2024
