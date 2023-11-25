@@ -12,7 +12,7 @@ Chances are you’ve heard about the rapid pace of AI and how Linux is at the he
 
 If you have a new Nvidia 3060, 3070, or 3080 graphics card and run Ubuntu Linux 22 you’ve likely had a tough time between 2022-2023. There is a LOT of conflicting information in November 2023 on what libraries to install, from where, in what order, and for what bugs that pop up. What works for a 3060 or 3080 doesn’t work for the 3070 8GB that I have. They’re good bang-for-the-buck cards but they all need something a little different. Ubuntu 20 and 22 both act different, as well. 
 
-The Ubuntu libraries and repos are currently a little out of sync. Nvidia drivers need the right cuda toolkit to be happy. The pattern and debug tools listed here will help you along the way. Other professionals will ask you about the results from the common diagnostic tools and logs listed here, too. The bugs listed are common but solutions are scattered. Weeks of singular effort was extended to research and test all of this. It deserves a good and thorough write-up in one spot. 
+The Ubuntu libraries and repos are currently a little out of sync. Nvidia drivers need the right cuda toolkit to be happy. The pattern and debug tools listed here will help you along the way. Diagnostic commands and logs are listed at the bottom. The bugs listed are common but solutions are scattered. Weeks of singular effort was extended to research and test all of this. It deserves a good and thorough write-up in one spot. 
 
 
 **Situation**
