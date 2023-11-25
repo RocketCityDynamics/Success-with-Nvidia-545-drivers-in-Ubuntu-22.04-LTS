@@ -1,32 +1,50 @@
 # Success-with-Nvidia-545-drivers-in-Ubuntu-22.04-LTS
-There is a lot of scattered information on how to succeed with Nvidia GPUs and Ubuntu 22.04. This is what worked for us with a 3070 GPU. 
-The resulting happy install is capable of supporting advanced graphics like Unreal Engine 5 as well as AI and ML libraries on the same machine.
-Further revisions are forthcoming as we continue to experiment with added functionality.
+
+There is a lot of scattered information on how to succeed with Nvidia GPUs and Ubuntu 22.04. Getting it right is crucial to working with advanced graphics, artifical intelligence, and machine learning on your Ubuntu Linux PC. This is what worked for us with a 3070 GPU. The resulting happy install is capable of supporting advanced graphics like Unreal Engine 5 as well as AI and ML libraries on the same machine.
+Further revisions are forthcoming as we continue to experiment with added functionality and clean up these commands.
+
+This repo offers a holistic view of the OTS hardware and software. They need each other to function optimally.
+
+What this is meant to fix:
+1. Green bars and dots on the screen.
+2. Lost monitor functionality. If you use more than one screen then this should make them both happy.
+3. Black screen of death. Windows has a blue screen. Linux has a black screen, with the abyss staring back at you. This is written so you're not lost in space.
+4. System instability. The green dots kept coming back. After bookmarking over a dozen blog pages with ads, one big repo was better. Imagine trying to read all those pages with annoying ads and green bars flickering in your face. THAT BEHAVIOR IS BEYOND ANNOYING!!!
+5. The #1 frustration here was that the install was only stable once and ran great. There were mutiple reasons why. Most assume "the card is bad" when they just need a better test procedures and clear instructions. There's admin and setup tricks along the way to making this work. It's all here in just one document with no clickbaiting bullshit. Not sorry.
 
 
 **Preamble**
 
-(I’m between jobs and had the time to write this and test it. Skip the like-and-subscribe. There’s no ads. Just hire me!) 
+(I’m between jobs and had the time to write this and test it. Skip the like-and-subscribe. There’s no ads. Fork the repo and hire me!) 
 
-Chances are you’ve heard about the rapid pace of AI and how Linux is at the heart of it. You will need hardware and software upgrades both to make it work. Configuring both can be a bit of a challenge for some. The software packages are really just starting to get their sea legs.
+Chances are you’ve heard about the rapid pace of AI and how Linux is at the heart of it. You will need hardware and software upgrades both to make it work. Configuring both can be a bit of a challenge for some. The needed libraries are really just starting to get their sea legs.
 
-If you have a new Nvidia 3060, 3070, or 3080 graphics card and run Ubuntu Linux 22 you’ve likely had a tough time between 2022-2023. There is a LOT of conflicting information in November 2023 on what libraries to install, from where, in what order, and for what bugs that pop up. What works for a 3060 or 3080 doesn’t work for the 3070 8GB that I have. They’re good bang-for-the-buck cards but they all need something a little different. Ubuntu 20 and 22 both act different, as well. 
+The pattern laid out here for install, test, and debug is what's important. You will likely need to tinker a bit with the revision numbers on your machine. If you have a new Nvidia 3060, 3070, or 3080 graphics card and run Ubuntu Linux 22 you’ve likely had a tough time between 2022-2023. There is a LOT of conflicting information in November 2023 on what libraries to install, from where, in what order, and for what bugs that pop up. What works for a 3060 or 3080 doesn’t work for the 3070 8GB that I have. They’re good bang-for-the-buck cards but they all need something a little different. Ubuntu 20 and 22 both act different, as well. This repo is geared towards 22.04 LTS.
+
+
+**What the problem really is**
 
 The Ubuntu libraries and repos are currently a little out of sync. Nvidia drivers need the right cuda toolkit to be happy. The pattern and debug tools listed here will help you along the way. Diagnostic commands and logs are listed at the bottom. The bugs listed are common but solutions are scattered. Weeks of singular effort was extended to research and test all of this. It deserves a good and thorough write-up in one spot. 
 
 
 **Situation**
 
-The range of Nvidia drivers from 470, 515, 525, 535, 545---I tested all of them on my Ubuntu 22.04 LTS install with one 3070 8GB graphics card. Most of them puked. The correct CUDA toolkit version changes according to which driver you use on which card. The Nvidia driver appears to need the CUDA toolkit to function and for you to build onto. Using the GPU in your data science code requires libraries that talk directly to it. The CUDA toolkit is the highway for those libraries. Otherwise you just have a nice gaming rig. This lets you have both! The catch is you can’t cut corners to get there.
+The range of Nvidia drivers from 470, 515, 525, 535, 545 --I tested all of them on my Ubuntu 22.04 LTS install with one 3070 8GB graphics card. Most of them puked. This build and debug document helps explain why. 
+The correct CUDA toolkit version changes according to:
+_which driver_ you use 
+on _which card_ 
+in _which Ubuntu version_.
 
-As of this writing in November 2023, ubuntu-cuda-toolkit is on version 11.5. I needed version 12.3 from Nvidia to make the new 545 driver work. That’s a bit of a curve ball for newbies. Ubuntu’s repos just haven’t caught up yet and it’s nobody’s fault. This should be a more straight forward install in a few months and I hope to help that along.
+The Nvidia driver appears to need the CUDA toolkit to function and for you to build onto. Using the GPU in your data science code requires libraries that talk directly to it. We are building this parallel highway, basically. The CUDA toolkit is the highway for those "vehicles", or libraries. Otherwise you just have a nice gaming rig. This lets you have both! The catch is you can’t cut corners to get there.
 
-Cuda 10-11.4 is recommended by older posts. Ubuntu 22 only partially works with those later drivers. 470 is supposedly more stable but that crashes in Ubuntu 22 as well. 545 finally works. The extra libraries and configuration shown here were the real challenges to piece together.
+As of this writing in November 2023, ubuntu-cuda-toolkit is on version 11.5. I needed version 12.3 directly from Nvidia to make the new 545 driver work. A few simple lines of Ubuntu commands didn't make it work. This is a little involved. That’s a bit of a curve ball for newbies. Ubuntu’s repos just haven’t caught up yet and it’s nobody’s fault. This should be a more straight forward install in a few months and I hope to help that along.
 
-If you’ve gone around in circles with this until now, these steps should be more straight forward. GPUS need more power and you will end up adding a power supply and a cooler for reliability and stability. Do it or you’ll be sorry. If you have a gaming rig then you likely updated these things already. Making them work smoother in Linux is the point of all these words.
+Cuda 10-11.4 is recommended by older posts for Ubuntu 20. Ubuntu 22 only partially works with those later drivers. 470 is supposedly more stable but that crashes in Ubuntu 22 as well. 545 finally works! Whomever did that, good job! I'm standing on the shoulders of giants, and you can too. The extra libraries and configuration shown here were the real challenges to piece together.
 
+If you’ve gone around in circles with this until now, these steps should be more straight forward. GPUS also need more power. You will end up adding a power supply and a cooler for reliability and stability. Do it or you’ll be sorry. If you have a gaming rig then you likely updated these things already. Making them work smoother in Linux is the point of all these words.
 
-(Bookmark or fork this repo. There’s a few reboots involved.)
+(Bookmark or fork this repo. There’s a few reboots involved and you'll need to come back.)
+
 
 **Extra hardware**
 
@@ -36,7 +54,7 @@ https://www.amazon.com/Cooler-Master-Silencio-Anodized-Gun-Metal/dp/B07H25DYM3/r
 2. Get a good gold rated 850W power supply, like this. If a cap blows on a cheaper one you’ll cook your whole tower and your expensive card. $100
 https://www.amazon.com/dp/B0BF3YF9KY?psc=1&ref=ppx_yo2ov_dt_b_product_details
 
-Install the above. I had to cut a hole in the side of my A10 ASUS case for the cooler to fit.
+Install the above or some kind of good equivalent. I had to cut a hole in the side of my A10 ASUS case for the cooler to fit. A bigger case was more money I didn't have.
 
 
 **Prep the BIOS**
@@ -53,6 +71,7 @@ $ cat /etc/modprobe.d/blacklist-nvidia-nouveau.conf
 
 blacklist nouveau
 options nouveau modeset=0
+
 4.) $ sudo update-initramfs -u
 
 5.) update kernel headers.
@@ -62,29 +81,37 @@ $ sudo apt-get --reinstall install linux-headers-`uname -r`
 $ sudo update-grub
 
 7.) sudo reboot
-Installation
+
+
+
+**Installation**
 
 **Clean and prep old libraries in a terminal**
 
-1.) $ sudo apt-get remove nvidia-cuda-toolkit
+1. ) $ sudo apt-get remove nvidia-cuda-toolkit
 
 2. ) $ sudo apt-get --purge remove "*cud*" "*cublas*" "*cufft*" "*cufile*" "*curand*"  "*cusolver*" "*cusparse*" "*gds-tools*" "*npp*" "*nvjpeg*" "nsight*" "*nvvm*"
 
-3.) $ sudo apt-get --purge remove "*nvidia*" "libxnvctrl*"
+3. ) $ sudo apt-get --purge remove "*nvidia*" "libxnvctrl*"
+
+4. ) Remove the GDM3 X manager entirely. It will still fight with LightDM and Nvidia. Take it out of the picture entirely.
+     $ sudo apt-get purge --auto-remove gdm3 
 
 
 **Libraries to install**
 
-4. $ sudo apt install lightdm inxi nvidia-settings appmenu-gtk3-module nvidia-settings nvidia-smi nvidia-xconfig
+1. ) $ sudo apt install lightdm inxi nvidia-settings appmenu-gtk3-module nvidia-settings nvidia-smi nvidia-xconfig
 
 (Special note on lightdm. Ubuntu 22 I think defaults to the GDM3 X Display manager. Nvidia drivers HATE it. Your driver setup will work only once before corrupting. You will see screen artifacts, “melting” of pixels, and what looks like API balloons during the boot up log before graphics have even loaded. Stay away from GDM3 for now.)
 
-5. $ sudo ubuntu-drivers autoinstall
+2. ) $ sudo ubuntu-drivers autoinstall
 (Special note here: My install grabbed the 545 drivers automatically. Lots of blogs will tell you to do this graphically in the Ubuntu Software Center. Others tell you to install specific nvidia drivers like the 510, 515, 525, etc. That may work for you, but it didn’t work for me. I couldn’t follow anything empirically or literally with this and have it work.)
 
-6. https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&Distribution=Ubuntu&target_version=22.04&target_type=runfile_local 
+3.) https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&Distribution=Ubuntu&target_version=22.04&target_type=runfile_local 
 
-(adjust specs there as needed for your installation.)
+(**Important note** adjust specs of the as needed for your installation. You'll need to match up the Nvidia CUDA toolkit version to the version that was autoinstalled through Ubuntu. This is the nasty curve ball mentioned earlier. These have to match appropriately.)
+
+(**Important Note**. When you run the below installer it will bring up a menu at the command prompt. DESELECT the option to install the driver from Nvidia. Keep the one autoinstalled from Ubuntu. It will give you warnings but proceed anyway. The big revision number like 525, 545 etc. is what matters for now.)
 
 $ sudo sh cuda_12.3.1_545.23.08_linux.run
 
@@ -92,7 +119,7 @@ $ sudo nvidia-xconfig
 
 $ sudo reboot
 
-
+At this point when you reboot, you should hopefully NOT have any more green dots or bars on your screen. The "cleaning and paving" of this parallel highway helps the drivers load correctly upon start up. GDM3 is like a boulder in the road.
 
 **Diagnostic results. Bugs explained**
 
