@@ -1,5 +1,7 @@
 # Success-with-Nvidia-545-drivers-in-Ubuntu-22.04-LTS
 
+**TL:DR -- Setting up a computer in Ubuntu for AI and ML programming is currently rather painful. This is written to heal that pain and be one source of good information on how to actually complete a good setup. If you have green bars, dots, black screens and system instability, then this document will help you sort all that out.**
+
 There is a lot of scattered information on how to succeed with Nvidia GPUs and Ubuntu 22.04. Getting it right is crucial to working with advanced graphics, artifical intelligence, and machine learning on your Ubuntu Linux PC. This is what worked for us with a 3070 GPU. The resulting happy install is capable of supporting advanced graphics like Unreal Engine 5 as well as AI and ML libraries on the same machine.
 Further revisions are forthcoming as we continue to experiment with added functionality and clean up these commands.
 
