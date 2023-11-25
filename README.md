@@ -99,6 +99,10 @@ $ sudo update-grub
 4. ) Remove the GDM3 X manager entirely. It will still fight with LightDM and Nvidia. Take it out of the picture entirely.
      $ sudo apt-get purge --auto-remove gdm3 
 
+5. ) $ sudo update-grub
+
+6. ) $ sudo update-initramfs -u
+
 
 **Libraries to install**
 
