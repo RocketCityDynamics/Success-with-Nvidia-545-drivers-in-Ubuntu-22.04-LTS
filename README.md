@@ -88,7 +88,8 @@ $ sudo update-grub
 
 **Installation**
 
-**Clean and prep old libraries in a terminal**
+
+**Clean and prep old libraries in a command line terminal**
 
 1. ) $ sudo apt-get remove nvidia-cuda-toolkit
 
@@ -102,6 +103,8 @@ $ sudo update-grub
 5. ) $ sudo update-grub
 
 6. ) $ sudo update-initramfs -u
+
+7. ) $ sudo reboot
 
 
 **Libraries to install**
