@@ -4,12 +4,9 @@ The resulting happy install is capable of supporting advanced graphics like Unre
 Further revisions are forthcoming as we continue to experiment with added functionality.
 
 
-Making a happy Nvidia driver and CUDA toolkit for Ubuntu 22.04 LTS going into Q1 2024
-
-
 **Preamble**
 
-I’m between jobs and had the time to write this and test it. Skip the like-and-subscribe BS. There’s no ads in here either. Just hire me!!! 
+(I’m between jobs and had the time to write this and test it. Skip the like-and-subscribe. There’s no ads. Just hire me!) 
 
 Chances are you’ve heard about the rapid pace of AI and how Linux is at the heart of it. You will need hardware and software upgrades both to make it work. Configuring both can be a bit of a challenge for some. The software packages are really just starting to get their sea legs.
 
