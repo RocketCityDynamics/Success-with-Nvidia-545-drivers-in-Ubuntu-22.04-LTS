@@ -95,7 +95,7 @@ $ sudo update-grub
 
 2. ) $ sudo apt-get --purge remove "*cud*" "*cublas*" "*cufft*" "*cufile*" "*curand*"  "*cusolver*" "*cusparse*" "*gds-tools*" "*npp*" "*nvjpeg*" "nsight*" "*nvvm*"
 
-3. ) $ sudo apt-get --purge remove "*nvidia*" "libxnvctrl*"
+3. ) $ sudo apt-get --purge remove "*nvidia*" "libxnvctrl*" (There's asterisks before and after *nvidia*. github keeps removing them for some reason.)
 
 4. ) Remove the GDM3 X manager entirely. It will still fight with LightDM and Nvidia. Take it out of the picture entirely.
      $ sudo apt-get purge --auto-remove gdm3 
