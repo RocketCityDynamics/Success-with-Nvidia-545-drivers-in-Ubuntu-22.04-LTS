@@ -67,22 +67,24 @@ Install the above or some kind of good equivalent. I had to cut a hole in the si
 
 3.) Blacklist your nouveau driver. Nouveau drivers can clash with Nvidia and fight over control. Bad juju there.
 
-$ sudo bash -c "echo blacklist nouveau > /etc/modprobe.d/blacklist-nvidia-nouveau.conf"
-$ sudo bash -c "echo options nouveau modeset=0 >> /etc/modprobe.d/blacklist-nvidia-nouveau.conf"
-$ cat /etc/modprobe.d/blacklist-nvidia-nouveau.conf
+$ ```sudo bash -c "echo blacklist nouveau > /etc/modprobe.d/blacklist-nvidia-nouveau.conf"```
 
+$ ```sudo bash -c "echo options nouveau modeset=0 >> /etc/modprobe.d/blacklist-nvidia-nouveau.conf"```
+
+$ ```cat /etc/modprobe.d/blacklist-nvidia-nouveau.conf```
+```
 blacklist nouveau
 options nouveau modeset=0
-
-4.) $ sudo update-initramfs -u
+```
+4.) $ ```sudo update-initramfs -u```
 
 5.) update kernel headers.
-$ sudo apt-get --reinstall install linux-headers-`uname -r`
+$ ```sudo apt-get --reinstall install linux-headers-$(uname -r)```
 
 6.) Update GRUB just to be safe.
-$ sudo update-grub
+$ ```sudo update-grub```
 
-7.) sudo reboot
+7.) ```sudo reboot```
 
 
 
@@ -91,29 +93,29 @@ $ sudo update-grub
 
 **Clean and prep old libraries in a command line terminal**
 
-1. ) $ sudo apt-get remove nvidia-cuda-toolkit
+1. ) $ ```sudo apt-get remove nvidia-cuda-toolkit```
 
-2. ) $ sudo apt-get --purge remove "*cud*" "*cublas*" "*cufft*" "*cufile*" "*curand*"  "*cusolver*" "*cusparse*" "*gds-tools*" "*npp*" "*nvjpeg*" "nsight*" "*nvvm*"
+2. ) $ ```sudo apt-get --purge remove "*cud*" "*cublas*" "*cufft*" "*cufile*" "*curand*"  "*cusolver*" "*cusparse*" "*gds-tools*" "*npp*" "*nvjpeg*" "nsight*" "*nvvm*"```
 
-3. ) $ sudo apt-get --purge remove "*nvidia*" "libxnvctrl*" (There's asterisks before and after *nvidia*. github keeps removing them for some reason.)
+3. ) $ ```sudo apt-get --purge remove "*nvidia*" "libxnvctrl*"``` (There's asterisks before and after *nvidia*. github keeps removing them for some reason.)
 
 4. ) Remove the GDM3 X manager entirely. It will still fight with LightDM and Nvidia. Take it out of the picture entirely.
-     $ sudo apt-get purge --auto-remove gdm3 
+     $ ```sudo apt-get purge --auto-remove gdm3```
 
-5. ) $ sudo update-grub
+5. ) $ ```sudo update-grub```
 
-6. ) $ sudo update-initramfs -u
+6. ) $ ```sudo update-initramfs -u```
 
-7. ) $ sudo reboot
+7. ) $ ```sudo reboot```
 
 
 **Libraries to install**
 
-1. ) $ sudo apt install lightdm inxi nvidia-settings appmenu-gtk3-module nvidia-settings nvidia-smi nvidia-xconfig
+1. ) $ ```sudo apt install lightdm inxi nvidia-settings appmenu-gtk3-module nvidia-settings nvidia-smi nvidia-xconfig```
 
 (Special note on lightdm. Ubuntu 22 I think defaults to the GDM3 X Display manager. Nvidia drivers HATE it. Your driver setup will work only once before corrupting. You will see screen artifacts, “melting” of pixels, and what looks like API balloons during the boot up log before graphics have even loaded. Stay away from GDM3 for now.)
 
-2. ) $ sudo ubuntu-drivers autoinstall
+2. ) $ ```sudo ubuntu-drivers autoinstall```
 (Special note here: My install grabbed the 545 drivers automatically. Lots of blogs will tell you to do this graphically in the Ubuntu Software Center. Others tell you to install specific nvidia drivers like the 510, 515, 525, etc. That may work for you, but it didn’t work for me. I couldn’t follow anything empirically or literally with this and have it work.)
 
 3.) https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&Distribution=Ubuntu&target_version=22.04&target_type=runfile_local 
@@ -122,21 +124,21 @@ $ sudo update-grub
 
 (**Important Note**. When you run the below installer it will bring up a menu at the command prompt. DESELECT the option to install the driver from Nvidia. Keep the one autoinstalled from Ubuntu. It will give you warnings but proceed anyway. The big revision number like 525, 545 etc. is what matters for now.)
 
-$ sudo sh cuda_12.3.1_545.23.08_linux.run
+$ ```sudo sh cuda_12.3.1_545.23.08_linux.run```
 
-$ sudo nvidia-xconfig
+$ ```sudo nvidia-xconfig```
 
-$ sudo reboot
+$ ```sudo reboot```
 
 At this point when you reboot, you should hopefully NOT have any more green dots or bars on your screen. The "cleaning and paving" of this parallel highway helps the drivers load correctly upon start up. GDM3 is like a boulder in the road.
 
 **Diagnostic results. Bugs explained**
 
-$ nvidia-settings
+$ ```nvidia-settings```
 This should bring up the GUI to check things out with your GPU that the system can now hopefully see.
 
-$ nvidia-smi
-
+$ ```nvidia-smi```
+```
 Fri Nov 24 23:28:37 2023       
 +---------------------------------------------------------------------------------------+
 | NVIDIA-SMI 545.29.02              Driver Version: 545.29.02    CUDA Version: 12.3     |
@@ -158,20 +160,22 @@ Fri Nov 24 23:28:37 2023
 |    0   N/A  N/A      2269      G   /usr/lib/xorg/Xorg                          239MiB |
 |    0   N/A  N/A     31882      G   /usr/bin/gnome-shell                         38MiB |
 +---------------------------------------------------------------------------------------+
+```
 
-
-$ nvcc -V
+$ ```nvcc -V```
+```
 output:
 nvcc: NVIDIA (R) Cuda compiler driver
 Copyright (c) 2005-2023 NVIDIA Corporation
 Built on Fri_Nov__3_17:16:49_PDT_2023
 Cuda compilation tools, release 12.3, V12.3.103
 Build cuda_12.3.r12.3/compiler.33492891_0
-
+```
 If the above library isn’t installed or the driver is not properly installed, the above won’t return any kind of value.
 
 
-$ dkms status
+$ ```dkms status```
+```
 output:
 nvidia/545.29.02, 6.2.0-36-generic, x86_64: installed
 nvidia/545.29.02, 6.2.0-37-generic, x86_64: installed
@@ -185,14 +189,15 @@ v4l2loopback/0.12.7, 6.2.0-37-generic, x86_64: installed
 virtualbox/6.1.38, 5.15.0-89-generic, x86_64: installed
 virtualbox/6.1.38, 6.2.0-36-generic, x86_64: installed
 virtualbox/6.1.38, 6.2.0-37-generic, x86_64: installed
+```
 
-
-$ sudo prime-select nvidia
-Error: no integrated GPU detected.
+$ ```sudo prime-select nvidia```
+```Error: no integrated GPU detected.```
 
 The above command should output this error if you’ve disabled onboard graphics in the BIOS listed above.
 
-$ grep nvidia /etc/modprobe.d/* /lib/modprobe.d/*
+$ ```grep nvidia /etc/modprobe.d/* /lib/modprobe.d/*```
+```
 /etc/modprobe.d/blacklist-framebuffer.conf:blacklist nvidiafb
 /etc/modprobe.d/nvidia-graphics-drivers-kms.conf:# This file was generated by nvidia-driver-545
 /etc/modprobe.d/nvidia-graphics-drivers-kms.conf:options nvidia-drm modeset=1
@@ -200,10 +205,11 @@ $ grep nvidia /etc/modprobe.d/* /lib/modprobe.d/*
 /lib/modprobe.d/nvidia-installer-disable-nouveau.conf:# generated by nvidia-installer
 /lib/modprobe.d/nvidia-kms.conf:# This file was generated by nvidia-prime
 /lib/modprobe.d/nvidia-kms.conf:options nvidia-drm modeset=1
-
+```
 The above command will show you if nvidia is blacklisted anywhere. The nvidiafb blacklist should be there but no other nvidia blacklisting as of this writing.
 
-$ grep nouveau /etc/modprobe.d/* /lib/modprobe.d/*
+$ ```grep nouveau /etc/modprobe.d/* /lib/modprobe.d/*```
+```
 /etc/modprobe.d/blacklist-nouveau.conf:blacklist nouveau
 /etc/modprobe.d/blacklist-nouveau.conf:options nouveau modeset=0
 /etc/modprobe.d/blacklist-nvidia-nouveau.conf:blacklist nouveau
@@ -216,12 +222,12 @@ $ grep nouveau /etc/modprobe.d/* /lib/modprobe.d/*
 /lib/modprobe.d/nvidia-graphics-drivers.conf:alias lbm-nouveau off
 /lib/modprobe.d/nvidia-installer-disable-nouveau.conf:blacklist nouveau
 /lib/modprobe.d/nvidia-installer-disable-nouveau.conf:options nouveau modeset=0
-
+```
 You want to have Nouveau drivers blacklisted. The above command shows that.
 
 
-$ sudo update-grub
-
+$ ```sudo update-grub```
+```
 Sourcing file `/etc/default/grub'
 Sourcing file `/etc/default/grub.d/init-select.cfg'
 Generating grub configuration file ...
@@ -234,7 +240,7 @@ Warning: os-prober will be executed to detect other bootable partitions.
 Its output will be used to detect bootable binaries on them and create new boot entries.
 Adding boot menu entry for UEFI Firmware Settings ...
 done
-
+```
 The above is more for good house keeping.
 
 
