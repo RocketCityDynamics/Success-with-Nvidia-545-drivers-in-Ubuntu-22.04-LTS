@@ -50,16 +50,14 @@ If you’ve gone around in circles with this until now, these steps should be mo
 
 **Extra hardware**
 
-1. Get a chip cooler. Your box will thank you. $50.
-https://www.amazon.com/Cooler-Master-Silencio-Anodized-Gun-Metal/dp/B07H25DYM3/ref=sr_1_3?crid=3PC8F7KF6MVV&keywords=amd%2Bchip%2Bcooler%2Bhyper%2B212%2Bblack&qid=1700886332&s=electronics&sprefix=amd%2Bchip%2Bcooler%2Bhyper%2B212%2Bblack%2Celectronics%2C87&sr=1-3&th=1
+1. [Get a chip cooler. Your box will thank you. $50.](https://www.amazon.com/Cooler-Master-Silencio-Anodized-Gun-Metal/dp/B07H25DYM3/ref=sr_1_3?crid=3PC8F7KF6MVV&keywords=amd%2Bchip%2Bcooler%2Bhyper%2B212%2Bblack&qid=1700886332&s=electronics&sprefix=amd%2Bchip%2Bcooler%2Bhyper%2B212%2Bblack%2Celectronics%2C87&sr=1-3&th=1)
 
-2. Get a good gold rated 850W power supply, like this. If a cap blows on a cheaper one you’ll cook your whole tower and your expensive card. $100
-https://www.amazon.com/dp/B0BF3YF9KY?psc=1&ref=ppx_yo2ov_dt_b_product_details
+2. [Get a good gold rated 850W power supply, like this. If a cap blows on a cheaper one you’ll cook your whole tower and your expensive card. $100](https://www.amazon.com/dp/B0BF3YF9KY?psc=1&ref=ppx_yo2ov_dt_b_product_details)
 
 Install the above or some kind of good equivalent. I had to cut a hole in the side of my A10 ASUS case for the cooler to fit. A bigger case was more money I didn't have.
 
 
-**Prep the BIOS**
+## Prep the BIOS
 
 1.) Enable discreet graphics. Turn off your integrated or Intel graphics card. Nvidia stuff hates them.
 
@@ -88,10 +86,10 @@ $ ```sudo update-grub```
 
 
 
-**Installation**
+## Installation
 
 
-**Clean and prep old libraries in a command line terminal**
+### Clean and prep old libraries in a command line terminal
 
 1. ) $ ```sudo apt-get remove nvidia-cuda-toolkit```
 
@@ -109,7 +107,7 @@ $ ```sudo update-grub```
 7. ) $ ```sudo reboot```
 
 
-**Libraries to install**
+### Libraries to install
 
 1. ) $ ```sudo apt install lightdm inxi nvidia-settings appmenu-gtk3-module nvidia-settings nvidia-smi nvidia-xconfig```
 
@@ -132,7 +130,7 @@ $ ```sudo reboot```
 
 At this point when you reboot, you should hopefully NOT have any more green dots or bars on your screen. The "cleaning and paving" of this parallel highway helps the drivers load correctly upon start up. GDM3 is like a boulder in the road.
 
-**Diagnostic results. Bugs explained**
+### Diagnostic results. Bugs explained
 
 $ ```nvidia-settings```
 This should bring up the GUI to check things out with your GPU that the system can now hopefully see.
@@ -225,7 +223,6 @@ $ ```grep nouveau /etc/modprobe.d/* /lib/modprobe.d/*```
 ```
 You want to have Nouveau drivers blacklisted. The above command shows that.
 
-
 $ ```sudo update-grub```
 ```
 Sourcing file `/etc/default/grub'
@@ -244,11 +241,13 @@ done
 The above is more for good house keeping.
 
 
-Log files
+### Log files
+
+$ ```sudo nvidia-bug-report.sh```
 
 You’ll need log file output if anything goes sideways. This document is also written to help you communicate with others effectively. Tech support or other enthusiasts will help you on StackOverflow, Ubuntu, or Nvidia forums. These log file outputs will help you both diagnose any problems.
 
-https://forums.developer.nvidia.com/t/if-you-have-a-problem-please-read-this-first/27131
+[NVIDIA Bug Report](https://forums.developer.nvidia.com/t/if-you-have-a-problem-please-read-this-first/27131)
 
 
 
